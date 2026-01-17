@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>短歌メモ</title>
+<style>
+  :root{
+    --bg:#0b0d12; --card:#121a2c; --ink:#e9eefc;
+    --muted:#b8c3e6; --line:#2a3556; --accent:#8fb4ff;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  }
+  header{ padding:14px 16px 8px; }
+  h1{ margin:0; font-size:18px; letter-spacing:.02em; }
+  .wrap{ max-width:760px; margin:0 auto; padding:12px 16px 24px; }
+  .card{
+    background:var(--card); border:1px solid var(--line);
+    border-radius:14px; padding:12px; margin:10px 0;
+  }
+  input,textarea,button{
+    width:100%; border-radius:12px; border:1px solid var(--line);
+    background:#0f1320; color:var(--ink); padding:10px 12px; font-size:15px;
+  }
+  textarea{ min-height:96px; resize:vertical; }
+  .row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .row > *{ flex:1; min-width:160px; }
+  button.primary{ font-weight:700; background:#121a2c; }
+  .meta{ display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+  .muted{ color:var(--muted); font-size:12px; }
+  .list .item{
+    border:1px solid var(--line); background:#0f1320;
+    border-radius:14px; padding:12px; margin:10px 0;
+  }
+  .top{ display:flex; justify-content:space-between; gap:8px; }
+  .title{ font-weight:700; font-size:14px; }
+  .text{ white-space:pre-wrap; line-height:1.6; margin-top:6px; }
+  .tags{ margin-top:6px; font-size:12px; color:var(--muted); }
+  .pill{ display:inline-block; padding:4px 8px; border:1px solid var(--line);
+         border-radius:999px; margin-right:6px; }
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>短歌メモ</h1>
+  <div class="muted">Safari対応・端末内保存</div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="row">
+      <input id="title" placeholder="タイトル（任意）" />
+      <input id="tags" placeholder="タグ（例：夜/活動/家族）" />
+    </div>
+    <div style="height:8px"></div>
+    <textarea id="text" placeholder="短歌・フレーズを書いてね"></textarea>
+    <div class="meta">
+      <div class="muted" id="count">0 文字</div>
+      <div class="row" style="flex:0">
+        <button id="clear">クリア</button>
+        <button class="primary" id="save">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input id="q" placeholder="検索（キーワード or タグ）" />
+  </div>
+
+  <div id="list" class="list"></div>
+</div>
+
+<script>
+const KEY="tanka_app_v1";
+const $=id=>document.getElementById(id);
+
+const load=()=>JSON.parse(localStorage.getItem(KEY)||"[]");
+const saveAll=a=>localStorage.setItem(KEY,JSON.stringify(a));
+const tags=s=>(s||"").split(/[\\/ ,、]+/).map(x=>x.trim()).filter(Boolean);
+
+$("text").oninput=()=>{$("count").textContent=`${$("text").value.length} 文字`;};
+
+$("save").onclick=()=>{
+  const t=$("text").value.trim(); if(!t){alert("本文が空だよ");return;}
+  const a=load();
+  a.push({id:Date.now(),title:$("title").value,tags:tags($("tags").value),text:t,at:new Date().toISOString()});
+  saveAll(a); $("title").value="";$("tags").value="";$("text").value="";$("count").textContent="0 文字"; render();
+};
+$("clear").onclick=()=>{$("title").value="";$("tags").value="";$("text").value="";$("count").textContent="0 文字";};
+
+$("q").oninput=render;
+
+function render(){
+  const q=($("q").value||"").toLowerCase();
+  const list=$("list"); list.innerHTML="";
+  load().filter(x=>{
+    if(!q) return true;
+    return [x.title,x.text,(x.tags||[]).join(" ")].join(" ").toLowerCase().includes(q);
+  }).reverse().forEach(x=>{
+    const d=document.createElement("div"); d.className="item";
+    d.innerHTML=`
+      <div class="top">
+        <div class="title">${esc(x.title||"（無題）")}</div>
+        <div class="muted">${new Date(x.at).toLocaleString()}</div>
+      </div>
+      <div class="text">${esc(x.text)}</div>
+      <div class="tags">${(x.tags||[]).map(t=>`<span class="pill">#${esc(t)}</span>`).join("")}</div>
+    `;
+    list.appendChild(d);
+  });
+}
+const esc=s=>(s||"").replace(/[&<>"']/g,c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+render();
+</script>
+</body>
+</html>

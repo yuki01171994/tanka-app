@@ -2,65 +2,160 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>短歌メモ</title>
 <style>
   :root{
-    --bg:#0b0d12; --card:#121a2c; --ink:#e9eefc;
-    --muted:#b8c3e6; --line:#2a3556; --accent:#8fb4ff;
+    --bg:#0b0d12;
+    --paper:#0f1320;
+    --card:#121a2c;
+    --ink:#e9eefc;
+    --muted:#b8c3e6;
+    --line:#2a3556;
+    --accent:#8fb4ff;
   }
   *{ box-sizing:border-box; }
   body{
-    margin:0; background:var(--bg); color:var(--ink);
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+    -webkit-text-size-adjust:100%;
   }
-  header{ padding:14px 16px 8px; }
+  a{ color:var(--accent); }
+  .wrap{ max-width:860px; margin:0 auto; padding:12px 16px 28px; }
+  header.wrap{ padding-top:14px; padding-bottom:8px; }
   h1{ margin:0; font-size:18px; letter-spacing:.02em; }
-  .wrap{ max-width:760px; margin:0 auto; padding:12px 16px 24px; }
-  .card{
-    background:var(--card); border:1px solid var(--line);
-    border-radius:14px; padding:12px; margin:10px 0;
-  }
-  input,textarea,button{
-    width:100%; border-radius:12px; border:1px solid var(--line);
-    background:#0f1320; color:var(--ink); padding:10px 12px; font-size:15px;
-  }
-  textarea{ min-height:96px; resize:vertical; }
-  .row{ display:flex; gap:10px; flex-wrap:wrap; }
-  .row > *{ flex:1; min-width:160px; }
-  button.primary{ font-weight:700; background:#121a2c; }
-  .meta{ display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
   .muted{ color:var(--muted); font-size:12px; }
-  .list .item{
-    border:1px solid var(--line); background:#0f1320;
-    border-radius:14px; padding:12px; margin:10px 0;
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px;
+    margin:10px 0;
   }
-  .top{ display:flex; justify-content:space-between; gap:8px; }
-  .title{ font-weight:700; font-size:14px; }
-  .text{ white-space:pre-wrap; line-height:1.6; margin-top:6px; }
-  .tags{ margin-top:6px; font-size:12px; color:var(--muted); }
-  .pill{ display:inline-block; padding:4px 8px; border:1px solid var(--line);
-         border-radius:999px; margin-right:6px; }
+  input,textarea,button,select{
+    width:100%;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+    padding:10px 12px;
+    font-size:15px;
+    outline:none;
+  }
+  textarea{ min-height:104px; resize:vertical; line-height:1.6; }
+  button{ cursor:pointer; }
+  button.primary{ font-weight:700; background:#121a2c; }
+  button.ghost{ background:transparent; }
+  .row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .row > *{ flex:1; min-width:150px; }
+  .meta{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap; }
+  .pill{
+    display:inline-block;
+    padding:4px 8px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:#0f1320;
+    font-size:12px;
+    color:var(--muted);
+    margin-right:6px;
+  }
+  .list .item{
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:14px;
+    padding:12px;
+    margin:10px 0;
+  }
+  .top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;
+  }
+  .title{ font-weight:800; font-size:14px; }
+  .text{ white-space:pre-wrap; line-height:1.75; margin-top:8px; }
   .actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .actions button{ width:auto; padding:8px 10px; font-size:13px; border-radius:999px; }
+  .divider{ height:1px; background:var(--line); margin:10px 0; }
+  .today{
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(143,180,255,.08), rgba(15,19,32,0));
+    border-radius:14px;
+    padding:12px;
+  }
+  .today h2{ margin:0 0 6px 0; font-size:14px; }
+  .today .text{ margin-top:6px; }
+  .kiguide{
+    margin-top:10px;
+    padding:10px;
+    border:1px dashed var(--line);
+    border-radius:12px;
+    background:#0f1320;
+  }
+  .kiguide .row{ gap:6px; }
+  .kiguide .pill{ background:transparent; }
+  .tiny{ font-size:11px; color:var(--muted); }
+
+  /* 見た目調整（設定で切替） */
+  body.fs-s  { font-size:14px; }
+  body.fs-m  { font-size:16px; }
+  body.fs-l  { font-size:18px; }
+  body.pad-c .wrap{ padding-left:12px; padding-right:12px; }
+  body.pad-n .wrap{ padding-left:16px; padding-right:16px; }
+  body.pad-r .wrap{ padding-left:22px; padding-right:22px; }
+  body.pad-r textarea{ min-height:120px; }
 </style>
 </head>
-<body>
+<body class="fs-m pad-n">
 <header class="wrap">
   <h1>短歌メモ</h1>
-  <div class="muted">Safari対応・端末内保存</div>
+  <div class="muted">推敲モード / 今日の一首 / 音数ガイド / 見た目調整</div>
 </header>
 
 <div class="wrap">
+  <div class="today" id="todayBox" style="display:none;">
+    <div class="top">
+      <div>
+        <h2>今日の一首</h2>
+        <div class="muted" id="todayMeta"></div>
+      </div>
+      <div class="actions">
+        <button class="ghost" id="todayNext">入れ替え</button>
+      </div>
+    </div>
+    <div class="text" id="todayText"></div>
+    <div class="tiny" style="margin-top:6px;">★がある時は★から優先して選ぶよ。なければ最近の中から。</div>
+  </div>
+
   <div class="card">
     <div class="row">
       <input id="title" placeholder="タイトル（任意）" />
       <input id="tags" placeholder="タグ（例：夜/活動/家族）" />
     </div>
+
     <div style="height:8px"></div>
-    <textarea id="text" placeholder="短歌・フレーズを書いてね"></textarea>
+
+    <div class="row">
+      <select id="mode">
+        <option value="new">新規で保存</option>
+        <option value="rev">選択中の歌に推敲（別案）として追加</option>
+      </select>
+      <select id="revTarget">
+        <option value="">推敲先：未選択</option>
+      </select>
+    </div>
+
+    <div style="height:8px"></div>
+
+    <textarea id="text" placeholder="短歌・フレーズを書いてね（推敲モードなら“別案”として追加されるよ）"></textarea>
+
+    <div class="kiguide" id="kiGuide">
+      <div class="muted" style="margin-bottom:6px;">音数ガイド（かな文字の“ざっくり目安”）</div>
+      <div id="kiLineInfo" class="tiny"></div>
+    </div>
+
     <div class="meta">
       <div class="muted" id="count">0 文字</div>
-      <div class="row" style="flex:0">
+      <div class="row" style="flex:0; gap:8px;">
         <button id="clear">クリア</button>
         <button class="primary" id="save">保存</button>
       </div>
@@ -68,53 +163,483 @@
   </div>
 
   <div class="card">
-    <input id="q" placeholder="検索（キーワード or タグ）" />
+    <div class="row">
+      <input id="q" placeholder="検索（キーワード or タグ）" />
+      <select id="sort">
+        <option value="new">新しい順</option>
+        <option value="star">★優先</option>
+      </select>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <select id="fs">
+        <option value="fs-s">文字：小</option>
+        <option value="fs-m" selected>文字：中</option>
+        <option value="fs-l">文字：大</option>
+      </select>
+      <select id="pad">
+        <option value="pad-c">余白：コンパクト</option>
+        <option value="pad-n" selected>余白：標準</option>
+        <option value="pad-r">余白：ゆったり</option>
+      </select>
+    </div>
+    <div class="tiny" style="margin-top:8px;">設定は端末に保存されるよ。</div>
   </div>
 
   <div id="list" class="list"></div>
+
+  <div class="card">
+    <div class="row">
+      <button id="export">バックアップ書き出し（JSON）</button>
+      <button id="import">バックアップ読み込み</button>
+      <button id="wipe">全消去</button>
+    </div>
+    <div class="tiny" style="margin-top:8px;">読み込みは上書き。まず書き出してからが安心。</div>
+  </div>
 </div>
 
 <script>
-const KEY="tanka_app_v1";
-const $=id=>document.getElementById(id);
+/* ====== 保存形式（A：親＋別案） ======
+items: [
+ { id, title, tags[], text, at, star, revisions:[{id,text,at}] }
+]
+==================================== */
 
-const load=()=>JSON.parse(localStorage.getItem(KEY)||"[]");
-const saveAll=a=>localStorage.setItem(KEY,JSON.stringify(a));
-const tags=s=>(s||"").split(/[\\/ ,、]+/).map(x=>x.trim()).filter(Boolean);
+const KEY_ITEMS = "tanka_items_v2";
+const KEY_UI    = "tanka_ui_v1";
 
-$("text").oninput=()=>{$("count").textContent=`${$("text").value.length} 文字`;};
+const $ = (id)=>document.getElementById(id);
 
-$("save").onclick=()=>{
-  const t=$("text").value.trim(); if(!t){alert("本文が空だよ");return;}
-  const a=load();
-  a.push({id:Date.now(),title:$("title").value,tags:tags($("tags").value),text:t,at:new Date().toISOString()});
-  saveAll(a); $("title").value="";$("tags").value="";$("text").value="";$("count").textContent="0 文字"; render();
-};
-$("clear").onclick=()=>{$("title").value="";$("tags").value="";$("text").value="";$("count").textContent="0 文字";};
-
-$("q").oninput=render;
-
-function render(){
-  const q=($("q").value||"").toLowerCase();
-  const list=$("list"); list.innerHTML="";
-  load().filter(x=>{
-    if(!q) return true;
-    return [x.title,x.text,(x.tags||[]).join(" ")].join(" ").toLowerCase().includes(q);
-  }).reverse().forEach(x=>{
-    const d=document.createElement("div"); d.className="item";
-    d.innerHTML=`
-      <div class="top">
-        <div class="title">${esc(x.title||"（無題）")}</div>
-        <div class="muted">${new Date(x.at).toLocaleString()}</div>
-      </div>
-      <div class="text">${esc(x.text)}</div>
-      <div class="tags">${(x.tags||[]).map(t=>`<span class="pill">#${esc(t)}</span>`).join("")}</div>
-    `;
-    list.appendChild(d);
-  });
+function loadItems(){
+  try{ return JSON.parse(localStorage.getItem(KEY_ITEMS)||"[]"); }catch{ return []; }
 }
-const esc=s=>(s||"").replace(/[&<>"']/g,c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-render();
+function saveItems(items){
+  localStorage.setItem(KEY_ITEMS, JSON.stringify(items));
+}
+function loadUI(){
+  try{ return JSON.parse(localStorage.getItem(KEY_UI)||"{}"); }catch{ return {}; }
+}
+function saveUI(ui){
+  localStorage.setItem(KEY_UI, JSON.stringify(ui));
+}
+
+function nowISO(){ return new Date().toISOString(); }
+function fmt(iso){
+  const d = new Date(iso);
+  return d.toLocaleString();
+}
+function esc(s){
+  return (s||"").replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+function normTags(s){
+  return (s||"").split(/[\/,、\s]+/).map(x=>x.trim()).filter(Boolean);
+}
+function uid(){
+  return (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+Math.random());
+}
+
+/* ====== 音数ガイド（ざっくり） ======
+- かな（ひら/カタ）+ ー を数える
+- 改行が5行なら 5-7-5-7-7 の目安表示
+*/
+function kanaCount(str){
+  const s = (str||"");
+  let n=0;
+  for(const ch of s){
+    const code = ch.charCodeAt(0);
+    const isHira = (0x3040 <= code && code <= 0x309F);
+    const isKata = (0x30A0 <= code && code <= 0x30FF);
+    const isLong = (ch === "ー");
+    if(isHira || isKata || isLong) n++;
+  }
+  return n;
+}
+function updateKiGuide(){
+  const t = $("text").value || "";
+  const lines = t.split(/\r?\n/).map(x=>x.trim()).filter(x=>x.length>0);
+  const targets = [5,7,5,7,7];
+
+  if(lines.length === 5){
+    const counts = lines.map(kanaCount);
+    const parts = counts.map((c,i)=> {
+      const ok = (c === targets[i]);
+      const mark = ok ? "✓" : "△";
+      return `<span class="pill">${i+1}句 ${c}/${targets[i]} ${mark}</span>`;
+    }).join("");
+    $("kiLineInfo").innerHTML = parts + `<div class="tiny" style="margin-top:6px;">（かな換算の目安。厳密判定ではないよ）</div>`;
+  }else{
+    const total = kanaCount(t);
+    const hint = (lines.length===0)
+      ? "まず言葉を置いてOK。"
+      : "5行（改行）にすると 5-7-5-7-7 の目安が出るよ。";
+    $("kiLineInfo").innerHTML =
+      `<span class="pill">かな文字数（目安）: ${total}</span>` +
+      `<div class="tiny" style="margin-top:6px;">${esc(hint)}</div>`;
+  }
+}
+
+/* ====== UI 状態 ====== */
+let selectedParentId = ""; // 推敲ターゲット
+
+function applyUI(){
+  const ui = loadUI();
+  const fs = ui.fs || "fs-m";
+  const pad = ui.pad || "pad-n";
+  document.body.classList.remove("fs-s","fs-m","fs-l","pad-c","pad-n","pad-r");
+  document.body.classList.add(fs, pad);
+  $("fs").value = fs;
+  $("pad").value = pad;
+}
+
+/* ====== 今日の一首 ====== */
+let todayPool = [];
+function buildTodayPool(items){
+  const starred = items.filter(x=>x.star);
+  if(starred.length > 0) return starred;
+  // 最近20件から
+  return items.slice().sort((a,b)=> b.at.localeCompare(a.at)).slice(0, 20);
+}
+function pickToday(){
+  const items = loadItems();
+  if(items.length === 0){
+    $("todayBox").style.display = "none";
+    return;
+  }
+  todayPool = buildTodayPool(items);
+  const pick = todayPool[Math.floor(Math.random()*todayPool.length)];
+  $("todayMeta").textContent = `${fmt(pick.at)} ${pick.star ? "★" : ""}  ${pick.title ? "・"+pick.title : ""}`;
+  $("todayText").textContent = pick.text;
+  $("todayBox").style.display = "block";
+}
+
+/* ====== 推敲ターゲット選択肢 ====== */
+function refreshRevTargets(items){
+  const sel = $("revTarget");
+  const keep = sel.value || "";
+  sel.innerHTML = `<option value="">推敲先：未選択</option>` + items
+    .slice().sort((a,b)=> b.at.localeCompare(a.at))
+    .map(x=> `<option value="${x.id}">${esc(x.title||"（無題）")} / ${fmt(x.at)}</option>`)
+    .join("");
+  if(keep && items.some(x=>x.id===keep)) sel.value = keep;
+}
+
+/* ====== 描画 ====== */
+function render(){
+  const items = loadItems();
+  refreshRevTargets(items);
+
+  const q = ($("q").value||"").trim().toLowerCase();
+  const sort = $("sort").value;
+
+  let filtered = items.filter(it=>{
+    if(!q) return true;
+    const hay = [
+      it.title||"",
+      it.text||"",
+      (it.tags||[]).join(" "),
+      (it.revisions||[]).map(r=>r.text).join(" ")
+    ].join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+
+  filtered.sort((a,b)=>{
+    if(sort==="star"){
+      const ds = (b.star?1:0)-(a.star?1:0);
+      if(ds!==0) return ds;
+    }
+    return b.at.localeCompare(a.at);
+  });
+
+  const list = $("list");
+  list.innerHTML = "";
+
+  filtered.forEach(it=>{
+    const el = document.createElement("div");
+    el.className = "item";
+
+    const tagsHtml = (it.tags||[]).map(t=>`<span class="pill">#${esc(t)}</span>`).join("");
+    const revCount = (it.revisions||[]).length;
+
+    el.innerHTML = `
+      <div class="top">
+        <div>
+          <div class="title">${esc(it.title||"（無題）")}</div>
+          <div class="muted">${fmt(it.at)} ${it.star ? "★" : ""}</div>
+        </div>
+        <div class="muted">推敲: ${revCount}件</div>
+      </div>
+
+      <div class="text">${esc(it.text||"")}</div>
+      <div class="tags">${tagsHtml}</div>
+
+      <div class="actions">
+        <button data-act="select" data-id="${it.id}">推敲先にする</button>
+        <button data-act="addrev" data-id="${it.id}">この歌に推敲追加</button>
+        <button data-act="toggle" data-id="${it.id}">推敲を見る</button>
+        <button data-act="star" data-id="${it.id}">${it.star ? "★解除" : "★"}</button>
+        <button data-act="edit" data-id="${it.id}">編集</button>
+        <button data-act="del" data-id="${it.id}">削除</button>
+      </div>
+
+      <div class="divider" style="display:none" id="div-${it.id}"></div>
+      <div style="display:none" id="rev-${it.id}"></div>
+    `;
+
+    list.appendChild(el);
+
+    // push revisions list (hidden)
+    const revBox = el.querySelector(`#rev-${CSS.escape(it.id)}`);
+    if(revBox){
+      const revs = (it.revisions||[]).slice().sort((a,b)=> b.at.localeCompare(a.at));
+      revBox.innerHTML = revs.map(r=>`
+        <div class="card" style="margin:10px 0 0; background:#0f1320;">
+          <div class="top">
+            <div class="muted">別案</div>
+            <div class="muted">${fmt(r.at)}</div>
+          </div>
+          <div class="text">${esc(r.text||"")}</div>
+          <div class="actions">
+            <button data-act="promote" data-id="${it.id}" data-rid="${r.id}">この案を本文にする</button>
+            <button data-act="editrev" data-id="${it.id}" data-rid="${r.id}">この案を編集</button>
+            <button data-act="delrev" data-id="${it.id}" data-rid="${r.id}">この案を削除</button>
+          </div>
+        </div>
+      `).join("");
+    }
+  });
+
+  pickToday();
+}
+
+/* ====== イベント ====== */
+$("text").addEventListener("input", ()=>{
+  $("count").textContent = `${$("text").value.length} 文字`;
+  updateKiGuide();
+});
+
+$("mode").addEventListener("change", ()=>{
+  const isRev = $("mode").value === "rev";
+  $("revTarget").disabled = !isRev;
+});
+
+$("revTarget").addEventListener("change", ()=>{
+  selectedParentId = $("revTarget").value;
+});
+
+$("save").addEventListener("click", ()=>{
+  const text = ($("text").value||"").trim();
+  if(!text){ alert("本文が空だよ"); return; }
+
+  const items = loadItems();
+  const mode = $("mode").value;
+
+  if(mode === "rev"){
+    const pid = $("revTarget").value || selectedParentId;
+    const p = items.find(x=>x.id===pid);
+    if(!p){ alert("推敲先が未選択だよ"); return; }
+    p.revisions = p.revisions || [];
+    p.revisions.push({ id: uid(), text, at: nowISO() });
+    // タイトル/タグは推敲では使わない（混乱防止）
+  }else{
+    items.push({
+      id: uid(),
+      title: ($("title").value||"").trim(),
+      tags: normTags($("tags").value),
+      text,
+      at: nowISO(),
+      star: false,
+      revisions: []
+    });
+  }
+
+  saveItems(items);
+  $("title").value = "";
+  $("tags").value = "";
+  $("text").value = "";
+  $("count").textContent = "0 文字";
+  updateKiGuide();
+  render();
+});
+
+$("clear").addEventListener("click", ()=>{
+  $("title").value = "";
+  $("tags").value = "";
+  $("text").value = "";
+  $("count").textContent = "0 文字";
+  updateKiGuide();
+});
+
+$("q").addEventListener("input", render);
+$("sort").addEventListener("change", render);
+
+$("list").addEventListener("click", (e)=>{
+  const btn = e.target.closest("button");
+  if(!btn) return;
+
+  const act = btn.dataset.act;
+  const id  = btn.dataset.id;
+  const rid = btn.dataset.rid;
+
+  const items = loadItems();
+  const idx = items.findIndex(x=>x.id===id);
+  if(idx < 0) return;
+
+  const it = items[idx];
+
+  if(act==="select"){
+    selectedParentId = id;
+    $("mode").value = "rev";
+    $("revTarget").disabled = false;
+    $("revTarget").value = id;
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+
+  if(act==="addrev"){
+    selectedParentId = id;
+    $("mode").value = "rev";
+    $("revTarget").disabled = false;
+    $("revTarget").value = id;
+    $("text").focus();
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+
+  if(act==="toggle"){
+    const box = document.getElementById(`rev-${id}`);
+    const div = document.getElementById(`div-${id}`);
+    const open = (box.style.display !== "none");
+    box.style.display = open ? "none" : "block";
+    div.style.display = open ? "none" : "block";
+    return;
+  }
+
+  if(act==="star"){
+    it.star = !it.star;
+    saveItems(items); render(); return;
+  }
+
+  if(act==="edit"){
+    // 親を編集：入力欄へロード（保存は新規として扱うと混乱するので、ここで上書き）
+    const title = prompt("タイトル（空でもOK）", it.title||"");
+    if(title === null) return;
+    const tags = prompt("タグ（/区切り）", (it.tags||[]).join("/"));
+    if(tags === null) return;
+    const text = prompt("本文（改行OK）", it.text||"");
+    if(text === null) return;
+    it.title = title.trim();
+    it.tags = normTags(tags);
+    it.text = text;
+    saveItems(items); render(); return;
+  }
+
+  if(act==="del"){
+    if(confirm("この歌（親）と推敲も全部削除する？")){
+      items.splice(idx,1);
+      saveItems(items); render();
+    }
+    return;
+  }
+
+  // revisions actions
+  it.revisions = it.revisions || [];
+  const rIdx = it.revisions.findIndex(r=>r.id===rid);
+
+  if(act==="delrev"){
+    if(rIdx>=0 && confirm("この推敲案を削除する？")){
+      it.revisions.splice(rIdx,1);
+      saveItems(items); render();
+    }
+    return;
+  }
+
+  if(act==="editrev"){
+    if(rIdx<0) return;
+    const text = prompt("推敲案（改行OK）", it.revisions[rIdx].text||"");
+    if(text === null) return;
+    it.revisions[rIdx].text = text;
+    saveItems(items); render();
+    return;
+  }
+
+  if(act==="promote"){
+    if(rIdx<0) return;
+    const old = it.text;
+    const nw = it.revisions[rIdx].text;
+    if(confirm("この案を本文にして、今の本文を推敲として残す？")){
+      it.text = nw;
+      // 今の本文を推敲に積む
+      it.revisions.push({ id: uid(), text: old, at: nowISO() });
+      // 選んだ推敲は残してもいいが、重複が気になるなら削除
+      it.revisions.splice(rIdx,1);
+      saveItems(items); render();
+    }
+    return;
+  }
+});
+
+$("todayNext").addEventListener("click", pickToday);
+
+/* ====== 設定（見た目） ====== */
+$("fs").addEventListener("change", ()=>{
+  const ui = loadUI();
+  ui.fs = $("fs").value;
+  saveUI(ui);
+  applyUI();
+});
+$("pad").addEventListener("change", ()=>{
+  const ui = loadUI();
+  ui.pad = $("pad").value;
+  saveUI(ui);
+  applyUI();
+});
+
+/* ====== バックアップ ====== */
+$("export").addEventListener("click", ()=>{
+  const data = localStorage.getItem(KEY_ITEMS) || "[]";
+  const blob = new Blob([data], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "tanka_backup.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+$("import").addEventListener("click", ()=>{
+  const inp = document.createElement("input");
+  inp.type = "file";
+  inp.accept = "application/json";
+  inp.onchange = async ()=>{
+    const f = inp.files?.[0];
+    if(!f) return;
+    const txt = await f.text();
+    let arr;
+    try{
+      arr = JSON.parse(txt);
+      if(!Array.isArray(arr)) throw 0;
+    }catch{
+      alert("形式が違うみたい"); return;
+    }
+    saveItems(arr);
+    render();
+    alert("読み込んだよ");
+  };
+  inp.click();
+});
+$("wipe").addEventListener("click", ()=>{
+  if(confirm("全部消えるけどいい？（バックアップ推奨）")){
+    localStorage.removeItem(KEY_ITEMS);
+    render();
+  }
+});
+
+/* ====== 初期化 ====== */
+(function init(){
+  applyUI();
+  $("revTarget").disabled = true;
+  $("count").textContent = "0 文字";
+  updateKiGuide();
+  render();
+})();
 </script>
 </body>
 </html>
